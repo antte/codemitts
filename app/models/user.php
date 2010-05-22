@@ -1,6 +1,8 @@
 <?php
 	class User extends AppModel {
 		
+		var $hasMany = 'Project';
+		
 		/**
 		 * Checks if its a valid user
 		 * @param $username
