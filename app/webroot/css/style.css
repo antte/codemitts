@@ -1,0 +1,22 @@
+body{
+	background: #333 url(../img/noise.png);
+	color: #eee;
+	font-family: Arial, sans-serif;
+}
+
+#container{
+	width: 700px;
+	background: #fff;
+	color: #333;
+	padding: 30px;
+	margin: auto;	
+}
+
+a{
+	color: #950;
+	text-decoration: none;		
+}
+
+a:hover{
+	text-decoration: underline;
+}
