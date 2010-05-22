@@ -2,6 +2,7 @@
 	class Task extends AppModel {
 		
 		var $belongsTo = 'Project';
+		var $hasAndBelongsTo = 'Tasktype';
 		
 		/**
 		 * Given a taskType return a random task

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2010 at 06:27 PM
+-- Generation Time: May 22, 2010 at 07:25 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
@@ -65,6 +65,41 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 INSERT INTO `tasks` (`id`, `name`, `description`, `project_id`, `created`, `modified`) VALUES
 (3, 'task1', 'bläblä', 1, '2010-05-22 20:23:32', '2010-05-22 20:23:39'),
 (4, 'task2', 'lälälä', 1, '2010-05-22 20:24:14', '2010-05-22 20:24:18');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasks_tasktypes`
+--
+
+CREATE TABLE IF NOT EXISTS `tasks_tasktypes` (
+  `task_id` int(11) NOT NULL,
+  `tasktype_id` int(11) NOT NULL,
+  KEY `task_id` (`task_id`),
+  KEY `tasktype_id` (`tasktype_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `tasks_tasktypes`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tasktypes`
+--
+
+CREATE TABLE IF NOT EXISTS `tasktypes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `tasktypes`
+--
+
 
 -- --------------------------------------------------------
 
