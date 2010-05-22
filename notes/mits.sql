@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2010 at 05:54 PM
+-- Generation Time: May 22, 2010 at 06:27 PM
 -- Server version: 5.1.36
 -- PHP Version: 5.3.0
 
@@ -33,12 +33,14 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `projects`
 --
 
+INSERT INTO `projects` (`id`, `name`, `description`, `user_id`, `created`, `modified`) VALUES
+(1, 'mitts', 'so something!', 1, '2010-05-22 00:00:00', '2010-05-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -54,12 +56,15 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `tasks`
 --
 
+INSERT INTO `tasks` (`id`, `name`, `description`, `project_id`, `created`, `modified`) VALUES
+(3, 'task1', 'bläblä', 1, '2010-05-22 20:23:32', '2010-05-22 20:23:39'),
+(4, 'task2', 'lälälä', 1, '2010-05-22 20:24:14', '2010-05-22 20:24:18');
 
 -- --------------------------------------------------------
 
@@ -69,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` int(64) NOT NULL,
+  `username` varchar(64) NOT NULL,
   `password` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
@@ -79,4 +84,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`) VALUES
-(1, 0, '1a1dc91c907325c69271ddf0c944bc72');
+(1, 'user', '1a1dc91c907325c69271ddf0c944bc72');
