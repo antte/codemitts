@@ -9,4 +9,5 @@
 			$this->set('project', $this->Project->findByName($name));
 			
 		}
+		
 	}

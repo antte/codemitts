@@ -2,7 +2,7 @@
 	class Task extends AppModel {
 		
 		var $belongsTo = 'Project';
-		var $hasAndBelongsTo = 'Tasktype';
+		var $hasAndBelongsToMany = 'Tasktype';
 		
 		/**
 		 * Given a taskType return a random task
@@ -10,10 +10,10 @@
 		 * @return a task
 		 */
 		function random($taskType) {
-
-			$task = array();
 			
-			return $task;
+			$dataSet = $this->Tasktype->findByName($taskType);
+			
+			return $dataSet['Task'][rand( 0, (sizeof($dataSet['Task'])-1))];
 			
 		}
 		
