@@ -27,6 +27,7 @@
 	</title>
 	<?php
 		echo $this->Html->meta('icon');
+		echo $this->Html->css('reset.css');
 		echo $this->Html->css('style.css');
 		echo $scripts_for_layout;
 	?>
@@ -34,7 +35,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $html->link('CodeMitts', '#')?></h1>
+			<h1><?php echo $html->link('CodeMitts', array('controller' => 'pages', 'action' => 'home'))?></h1>
 		</div>
 		<div id="content">
 			

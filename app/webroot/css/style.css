@@ -12,7 +12,34 @@
 body{
 	background: #333 url(../img/noise.png);
 	color: #eee;
-	font-family: Arial, sans-serif;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.75em;
+	line-height: 1.7em;
+}
+
+h1 {
+	font-size: 24px;
+	margin-bottom: 12px;
+}
+h2 {
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+h3 {
+	font-size: 16px;
+	margin-bottom: 8px;
+}
+h4 {
+	font-size: 12px;
+	margin-bottom: 6px;
+}
+h5 {
+	font-size: 10px;
+	margin-bottom: 5px;
+}
+p {
+	margin-bottom: 1.5em;
+	max-width: 550px;
 }
 
 #container{
@@ -83,4 +110,11 @@ form#TaskRandomForm input[type="submit"]:active {
 	position: relative;
 	top: 1px;
 	left: 1px;
+}
+
+ul#tasks li {
+	text-indent: 1.5em;
+}
+ul#tasks li.active {
+	background-color: #879666;
 }
