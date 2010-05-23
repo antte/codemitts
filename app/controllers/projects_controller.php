@@ -2,11 +2,19 @@
 	
 	class ProjectsController extends AppController {
 		
-		function view($name) {
+		function view($mixed) {
 			
-			$name = Sanitize::clean($name);
+			$mixed = Sanitize::clean($mixed);
 			
-			$this->set('project', $this->Project->findByName($name));
+			if( !($project = $this->Project->findByName($mixed)) ) {
+				if( is_numeric($mixed) ) {
+					$project = $this->Project->findById($mixed);
+				} else {
+					return; //404
+				}
+			}
+			
+			$this->set('project', $project);
 			
 		}
 		

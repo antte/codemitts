@@ -34,14 +34,14 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework', true), 'http://cakephp.org'); ?></h1>
+			<h1><?php echo $html->link('CodeMitts', '#')?></h1>
 		</div>
 		<div id="content">
-
+			
 			<?php echo $this->Session->flash(); ?>
-
+			
 			<?php echo $content_for_layout; ?>
-
+			
 		</div>
 		<div id="footer">
 			<?php echo $this->Html->link(
