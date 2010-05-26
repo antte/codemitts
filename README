@@ -1,2 +1,11 @@
-put this in your vendors folder:
+Codemitts
+
+In order to get a working copy of Codemitts you need to do the following:
+
+1. Get the /app/config folder from  CakePHP 1.3 and put it in the root directory of Codemitts. (You also need to configure it... How?)
+http://github.com/cakephp/cakephp1x/downloads
+
+2. Download and put Simpletest 1.0.1 in /vendors
 http://sourceforge.net/projects/simpletest/files/simpletest/simpletest_1.0.1/simpletest_1.0.1.tar.gz/download
+
+3. Run the codemitts.sql file in /notes. It contains all necessary tables and stuff :)
