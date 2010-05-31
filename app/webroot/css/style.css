@@ -112,9 +112,24 @@ form#TaskRandomForm input[type="submit"]:active {
 	left: 1px;
 }
 
-ul#tasks li {
+ul#tasks > li {
 	text-indent: 1.5em;
+	padding: 5px;
 }
-ul#tasks li.active {
+ul#tasks p {
+	margin: 0;
+}
+ul#tasks > li.active {
 	background-color: #879666;
+}
+div.tags {
+	overflow: hidden;
+	clear: right;
+}
+div.tags ul {
+	color: #555;
+}
+div.tags h4 ,
+div.tags li {
+	float: left;
 }

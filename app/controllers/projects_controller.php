@@ -6,13 +6,9 @@
 			
 			$mixed = Sanitize::clean($mixed);
 			
-			if( !($project = $this->Project->findByName($mixed)) ) {
-				if( is_numeric($mixed) ) {
-					$project = $this->Project->findById($mixed);
-				} else {
-					return; //404
-				}
-			}
+			$project = $this->Project->findMixed($mixed);
+			
+			if(!$project) return;
 			
 			$this->set('project', $project);
 			

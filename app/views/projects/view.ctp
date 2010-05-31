@@ -3,7 +3,7 @@
 
 <?php if(isset($project['Task'])):?>
 
-	<h2>These are all the tasks for this project</h2>
+	<h2>Project tasks</h2>
 	<ul id="tasks">
 		<?php foreach($project['Task'] as $task): ?>
 		<li
@@ -14,6 +14,19 @@
 		?>
 		>
 			<h3><?php echo ucfirst($task['name'])?></h3>
+			<?php if(!empty($task['Tag'])):?>
+			<div class="tags">
+				<h4>Tags:</h4>
+				<ul>
+					<?php foreach($task['Tag'] as $i => $tag):?>
+					<li>
+						<?php echo $tag['name'];?>
+						<?php if(!(sizeof($task['Tag']) == ($i+1))) echo ",";?>
+					</li>
+					<?php endforeach;?>
+				</ul>
+			</div>
+			<?php endif;?>
 			<p><?php echo $task['description']?></p>
 		</li>
 		<?php endforeach;?>
