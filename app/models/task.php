@@ -2,10 +2,17 @@
 	class Task extends AppModel {
 		
 		var $belongsTo = 'Project';
-		var $hasAndBelongsToMany = 'Tasktype';
+		var $hasAndBelongsToMany = array(
+			'Tag' => array(
+				'className' =>  'Tag',
+				'joinTable' => 'tags_tasks',
+				'foreignKey' => 'task_id',
+				'associationForeignKey' => 'tag_id'
+			)
+		);
 		
 		/**
-		 * Given a taskType return a random task of that type
+		 * Given a tag return a random task with that tag
 		 * @params mixed
 		 * @return a task
 		 */
@@ -13,9 +20,9 @@
 			
 			if(func_num_args() == 1) {
 				
-				if(!($dataSet = $this->Tasktype->findByName(func_get_arg(0))))
-					$dataSet = $this->Tasktype->findById(func_get_arg(0));
-				
+				if(!($dataSet = $this->Tag->findByName(func_get_arg(0))))
+					$dataSet = $this->Tag->findById(func_get_arg(0));
+					
 				if($return = $dataSet['Task'][rand( 0, (sizeof($dataSet['Task'])-1))]) {
 					return $return;
 				} else {

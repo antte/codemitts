@@ -2,6 +2,7 @@
 	class User extends AppModel {
 		
 		var $hasMany = 'Project';
+		var $hasAndBelongsToMany = array('Tag');
 		
 		/**
 		 * Checks if its a valid user
