@@ -2,6 +2,11 @@
 	
 	class UsersController extends AppController {
 		
+		var $permittedActionsWithoutLogin = array(
+			'login',
+			'register'
+		);
+		
 		function beforeFilter() {
 			if(!$this->Session->read("loggedIn")) {
 				if (!$this->actionIsPermitted($this->params['action']))
@@ -14,10 +19,18 @@
 		 * Login action for the login view
 		 */
 		function login(){
+			
 			if($this->data) {
-				
-				$verifies =
-				$this->User->verify($this->data['User']['username'], $this->data['User']['password']);
+				$username = $this->data['User']['username'];
+				$password = $this->data['User']['password'];
+			} else if(func_num_args() == 2) {
+				$username = func_get_arg(0);
+				$password = func_get_arg(1);
+			}
+			
+			if(isset($username) && isset($password)) {
+			
+				$verifies = $this->User->verify($username, $password);
 				
 				if($verifies) {
 					$this->Session->write("loggedIn", 1);
@@ -26,8 +39,9 @@
 				} else {
 					$this->Session->setFlash("Wrong username or password");
 				}
-				
+			
 			}
+			
 		}
 		
 		/**
@@ -36,7 +50,7 @@
 		 */
 		function actionIsPermitted($action) {
 			//hilol :d
-			if 		($action == "login") return true;
+			if 		(in_array($action, $this->permittedActionsWithoutLogin)) return true;
 			//elseif 	($action == "create") return true;
 			else return false;
 		}
@@ -56,6 +70,27 @@
 			} else {
 				$this->Session->setFlash("fail!");
 			}
+		}
+		
+		function logout() {
+			if($this->Session->read('loggedIn')) {
+				$this->Session->write("loggedIn", 0);
+				$this->Session->setFlash('You are now logged out.');
+				$this->redirect(array('controller' => 'pages', 'action' => 'home'));
+			} else {
+				//We shouldn't be able to get here, since logout isnt permitted without login
+				$this->Session->setFlash('You are already logged out.');
+				$this->redirect(array('controller' => 'pages', 'action' => 'home'));
+			}
+		}
+		
+		function register() {
+			if(!empty($this->data)) {
+				$this->User->set($this->data);
+				if($this->User->save()) {
+					$this->set('registrated', true);
+				}
+			}			
 		}
 		
 	}

@@ -1,2 +1,2 @@
 <?php 
-	echo $this->element('random_button');
+	echo $this->element('login_form');
