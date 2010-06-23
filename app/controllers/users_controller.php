@@ -49,27 +49,8 @@
 		 * @param $action the action to be checked
 		 */
 		function actionIsPermitted($action) {
-			//hilol :d
 			if 		(in_array($action, $this->permittedActionsWithoutLogin)) return true;
-			//elseif 	($action == "create") return true;
 			else return false;
-		}
-		
-		/**
-		 * TODO debug function not intended for deploy 
-		 */
-		function create($username, $password) {
-			
-			if(Configure::read("debug") < 1) return;
-			
-			$user['User']['username'] = $username;
-			$user['User']['password'] = md5($password);
-			
-			if($this->User->save($user)) {
-				$this->Session->setFlash("great success");
-			} else {
-				$this->Session->setFlash("fail!");
-			}
 		}
 		
 		function logout() {

@@ -2,10 +2,16 @@
 	class Project extends AppModel {
 		var $belongsTo = 'User';
 		var $hasMany = 'Task';
+		var $automaticFields = array(
+			'id',
+			'created',
+			'modified',
+			'user_id'
+		);
 		
 		/**
-		 * tries to find a project by name first, then id
-		 * if nothing is found return false 
+		 * Tries to find a project by name first, then id
+		 * If nothing is found return false 
 		 * @param $mixed
 		 * @return mixed
 		 */
@@ -25,4 +31,18 @@
 			return $project;
 			
 		}
+		/**
+		 * check schema, if any of the fields is automatic, remove it, return result
+		 * @return unknown_type
+		 */
+		function getCreateFields() {
+			$schema = array();
+			foreach($this->_schema as $fieldName => $info) {
+				if(!in_array($fieldName, $this->automaticFields)) {
+					$schema[$fieldName] = $info;
+				}
+			}
+			return $schema;
+		}
+		
 	}

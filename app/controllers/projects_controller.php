@@ -14,4 +14,16 @@
 			
 		}
 		
+		/**
+		 * Create new project
+		 */
+		function create() {
+			$this->set('fields', $this->Project->getCreateFields());
+			
+			if(!empty($this->data)) {
+				
+			}
+			
+		}
+		
 	}

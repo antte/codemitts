@@ -37,21 +37,17 @@
 		}
 		
 		/**
-		 * Checks if its a valid user
+		 * Verifies that $username and $password is a valid user
 		 * @param $username
 		 * @param $password
+		 * @return boolean
 		 */
 		function verify($username, $password) {
 			
-			$username = Sanitize::clean($username);
-			$password = Sanitize::clean($password);
+			//Assumes username is unique
+			$user = $this->find('first', array('conditions' => array('username' => $username), 'recursive' => -1));
 			
-			$user = $this->findByUsername($username);
-			
-			if($user['User']['password'] == md5($password))
-				return true;
-			else
-				return false;
+			return ($user['User']['password'] == md5($password));
 			
 		}
 		

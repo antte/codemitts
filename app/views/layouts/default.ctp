@@ -29,6 +29,7 @@
 		echo $this->Html->meta('icon');
 		echo $this->Html->css('reset.css');
 		echo $this->Html->css('style.css');
+		echo $this->Html->css('login_form.css');
 		echo $this->Javascript->link('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 		echo $this->Javascript->link('http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js');
 		echo $scripts_for_layout;
