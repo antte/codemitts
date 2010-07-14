@@ -1,4 +1,4 @@
-<div id="loginForm">
+<div id="loginForm" class="fancyform">
 	<?php 
 		echo $form->create('User', array('action' => 'login'));
 		echo $form->input('username');

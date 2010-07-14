@@ -30,12 +30,6 @@
 	 		)
 		);
 		
-		function beforeSave() {
-			$this->data['User']['password'] = md5($this->data['User']['password']);
-			$this->data['User']['repassword'] = md5($this->data['User']['repassword']);
-			return true;
-		}
-		
 		/**
 		 * Verifies that $username and $password is a valid user
 		 * @param $username
@@ -49,6 +43,43 @@
 			
 			return ($user['User']['password'] == md5($password));
 			
+		}
+		
+		/**
+		 * Add a new preferred tag on the user
+		 * @param $userId
+		 * @param $tagName
+		 * @return unknown_type
+		 */
+		function addTag($data) {
+			
+			if(empty($data)) return false;
+			
+			$tag = $this->Tag->addTagIfNotExists($data['Tag']['name']);
+			
+			if(!$tag || empty($tag)) return false;
+			
+			unset($data['Tag']['name']);
+			$data['Tag']['id'] = $tag['Tag']['id'];
+			
+			$this->Tag->set($data);
+			
+			return $this->Tag->save($this->data);
+			
+		}
+		
+		/**
+		 * 
+		 * @param $data User data
+		 * @return true on success
+		 */
+		function register($data = null) {
+			$data['User']['password'] = md5($data['User']['password']);
+			$data['User']['repassword'] = md5($data['User']['repassword']);
+			
+			$user = $this->save($user);
+			debug($user);
+			return !empty($user);
 		}
 		
 	}

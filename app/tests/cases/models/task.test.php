@@ -5,8 +5,22 @@
 	class TaskTestCase extends CakeTestCase {
 		
 		var $fixtures = array(
-			'app.task'
+			'app.task',
+			'app.tag',
+			'app.project'
 		);
+		
+		function TaskTestCase() {
+			$this->Task =& ClassRegistry::init('Task');
+			
+			/*
+			 * This line shouldn't be nessessary cake is supposed to detect
+			 * that we use fixtures and automatically use the "test" db connection
+			 * if i understand this correctly:
+			 * @see http://book.cakephp.org/view/358/Preparing-test-data#Creating-a-test-case-365
+			 */
+			$this->User->useDbConfig = "test";
+		}
 		
 		/**
 		 * Test the random functions output when not supplying any parameters
@@ -14,10 +28,6 @@
 		 */
 		function testRandomOutputWithoutParameters() {
 			
-			//We start by creating an instance of our fixture based Task model
-			$this->Task =& ClassRegistry::init('Task');
-			
-			//and then run our random() method.
 			$result = $this->Task->random();
 			
 			//Now we want to test if random returns a task
@@ -25,7 +35,6 @@
 				//fieldName is a key in result (keys from schema and result matches ie result is a task or atleast has all the values of a task)
 				$this->assertTrue(in_array( $fieldName ,array_keys($result)));
 			}
-			
 		}
 		
 	}
