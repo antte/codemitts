@@ -18,7 +18,7 @@
 				
 				//1.1	If we didn't find a task redirect back and tell user
 				if(!$task) {
-					$this->Session->setFlash("Sorry, we couldn't find a task for you. :[");
+					$this->Session->setFlash("Sorry, we couldn't find a task for you. :[", "user_notice");
 					$this->redirect($this->referer());
 				}
 				
@@ -31,7 +31,7 @@
 				
 				//2.1	If we didn't find a task with that type redirect back and tell user
 				if(!$task) {
-					$this->Session->setFlash("Sorry, we couldn't find a task with that type for you. :O");
+					$this->Session->setFlash("Sorry, we couldn't find a task with that type for you. :O", "user_notice");
 					$this->redirect($this->referer());
 				}	
 				
@@ -44,7 +44,7 @@
 				
 				//1.1	If we didn't find a task redirect back and tell user
 				if(!$task) {
-					$this->Session->setFlash("Sorry, we couldn't find a task for you. :[");
+					$this->Session->setFlash("Sorry, we couldn't find a task for you. :[", "user_notice");
 					$this->redirect($this->referer());
 				}
 				
@@ -58,7 +58,7 @@
 				
 				//4.1	If we didn't find a task with that type redirect back and tell user
 				if(!$task) {
-					$this->Session->setFlash("Sorry, we couldn't find a task for you. :[");
+					$this->Session->setFlash("Sorry, we couldn't find a task for you. :{", "user_notice");
 					$this->redirect($this->referer());
 				}				
 				
@@ -70,7 +70,7 @@
 				$this->redirect(array('controller' => 'projects', 'action' => 'view', $task['project_id']));
 			} else {
 				//5.1 	If not we redirect back and tell the user 
-				$this->Session->setFlash("Sorry, we couldn't find a task for you. :C");
+				$this->Session->setFlash("Sorry, we couldn't find a task for you. :C", "user_notice");
 				$this->redirect($this->referer());
 			}
 			

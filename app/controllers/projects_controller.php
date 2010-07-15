@@ -32,7 +32,7 @@
 				if ($success) {
 					$this->redirect(array('action' => 'view', $this->Project->id));
 				} else {
-					$this->setFlash("Something went wrong.");
+					$this->setFlash("Something went wrong.", "user_error");
 				}
 				
 			}

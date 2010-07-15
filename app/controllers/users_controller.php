@@ -28,10 +28,9 @@
 				
 				if($verifies) {
 					$this->Session->write("User", $this->User->find('first', array('conditions' => array('username' => $username))));
-					$this->Session->setFlash("You are now logged in.");
 					$this->redirect(array('action' => 'index'));
 				} else {
-					$this->Session->setFlash("Wrong username or password");
+					$this->Session->setFlash("Wrong username or password", "user_notice");
 				}
 			
 			}
@@ -71,15 +70,13 @@
 		}
 		
 		function logout() {
+			
 			if($this->Session->read('User')) {
 				$this->Session->delete('User');
-				$this->Session->setFlash('You are now logged out.');
-				$this->redirect(array('controller' => 'pages', 'action' => 'home'));
-			} else {
-				//We shouldn't be able to get here, since logout isnt permitted without login
-				$this->Session->setFlash('You are already logged out.');
-				$this->redirect(array('controller' => 'pages', 'action' => 'home'));
 			}
+			
+			$this->redirect(array('controller' => 'pages', 'action' => 'home'));
+			
 		}
 		
 		/**

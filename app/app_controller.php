@@ -23,7 +23,7 @@
 				$this->params['action'] == 'isLoggedIn' && 
 				$this->params['controller'] == 'users'
 			) {
-				return true; //proceed as normal
+				return; //proceed as normal
 			}
 			
 			if( 
@@ -31,11 +31,14 @@
 				!$this->requestAction(array('controller' => 'users', 'action' => 'isLoggedIn')) &&
 				!$this->actionIsPermittedWithoutLogin()
 			) {
-				$this->Session->setFlash("You have to be logged in to do that.");
+				$this->Session->setFlash("You have to be logged in to do that.", "user_error");
 				$this->redirect(array('controller' => 'users', 'action' => 'login'));
 			} else {
-				return true; //proceed as normal
+				return; //proceed as normal
 			}
+			
+			//Always fall back to a safe option?
+			$this->redirect(array('controller' => 'users', 'action' => 'login'));
 			
 		}
 		
@@ -44,10 +47,9 @@
 		 * @return true if current controller/action is permitted without being logged in
 		 */
 		function actionIsPermittedWithoutLogin() {
-			
 			if( 
 				isset($this->actionsPermittedWithoutLogin) &&
-				!empty($this->actionsPermittedWithoutLogin) 
+				!empty($this->actionsPermittedWithoutLogin)
 			) {
 				foreach($this->actionsPermittedWithoutLogin as $action) {
 					if( !is_string($action) ) continue;

@@ -77,8 +77,7 @@
 			$data['User']['password'] = md5($data['User']['password']);
 			$data['User']['repassword'] = md5($data['User']['repassword']);
 			
-			$user = $this->save($user);
-			debug($user);
+			$user = $this->save($data);
 			return !empty($user);
 		}
 		

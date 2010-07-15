@@ -1,20 +1,68 @@
+/* 
+ * RESET
+ * v1.0 | 20080212 */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 /*
+ * END OF RESET
+ */
 
-	Colors: "madmen" theme from kuler.adobe.com
-	Dark red: 		#521000
-	Lighter red:	#712800
-	Cardboard:		#744E1D
-	Turqoise:		#879666
-	Beige:			#F1D98C
+/*
+ * SITE WIDE CSS
+ */
 
-*/
-
-body{
-	background: #333 url(../img/noise.png);
-	color: #eee;
-	font-family: Verdana, Arial, sans-serif;
-	font-size: 0.75em;
-	line-height: 1.7em;
+section, aside, header, footer {
+	display: block;
 }
 
 h1 {
@@ -42,27 +90,53 @@ p {
 	max-width: 550px;
 }
 
-#container{
+/*
+ * END OF SITE WIDE CSS
+ */
+
+/*
+ * DEFAULT THEME CSS
+ * 
+	Color-theme: "madmen" from kuler.adobe.com
+	Dark red: 		#521000 rgb( 82, 16, 0 )
+	Lighter red:	#712800 rgb( 113, 40, 0 )
+	Cardboard:		#744E1D rgb( 116, 78, 29 )
+	Turqoise:		#879666 rgb( 135, 150, 102 )
+	Beige:			#F1D98C rgb( 241, 217, 140 )
+*/
+
+body.default {
+	background: #333 url(../img/bg_pattern.jpg);
+	color: #eee;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.75em;
+	line-height: 1.7em;
+}
+
+body.default > section {
 	width: 960px;
 	background: #fff;
 	color: #333;
-	margin: 0 auto;	
+	margin: 0 auto;
+	
+	-moz-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
 }
 
-#header, #content, #footer {
+header, #content, footer {
 	padding: 20px;
 }
 
-#header {
+header {
 	border-bottom: 1px dotted #ccc;
 }
 
-#footer {
+footer {
 	border-top: 1px dotted #ccc;
 }
 
 a{
-	color: #950;
+	color: #744E1D;
 	text-decoration: none;		
 }
 
@@ -133,3 +207,92 @@ div.tags h4 ,
 div.tags li {
 	float: left;
 }
+	/*MESSAGES STYLE*/
+	
+	.message {
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		max-width: 225px;
+		margin: 10px auto;
+		padding: 10px;
+	}
+	
+	.message p {
+		margin: 0;
+		padding: 0;
+		text-align: justify;
+	}
+	
+	.error.message {
+		background: #712800;
+		color: white;
+	}
+	
+	.notice.message {
+		background: #879666;
+		color: white;
+	}
+	
+	/*END OF MESSAGES STYLE*/
+
+	/*LOGIN FORM*/
+	
+	#loginForm {
+		margin: 0 auto;
+		width: 225px;
+		border: 1px solid rgba(0, 0, 0, 0.4);
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		padding: 15px 10px;
+	}
+	
+	#loginForm p {
+		text-align: center;
+	}
+	
+	#loginForm input ,
+	#loginForm label ,
+	#loginForm p{
+		display: block;
+		width: 205px;
+		margin: 0 auto;
+	}
+	
+	#loginForm input {
+		font-family: arial, lucida, helvetica, sans-serif;
+		padding: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+	}
+	
+	#loginForm form > div {
+		margin-bottom: 10px;
+		text-shadow:1px 1px rgba(0, 0, 0, 0.2);
+	}
+	
+	#loginForm form .input input {
+		color: #712800;
+	}
+	
+	#loginForm form .input input:focus {
+		border: 1px solid #F1D98C;
+		color: #904116;
+	}
+	
+	#loginForm .submit input {
+		height: 32px;
+		margin-top: 15px;
+		background: repeat-x url("../img/login_submit_button_gradient.jpg");
+		font-size: 16px;
+		font-weight: bold;
+		color: white;
+		cursor: pointer;
+	}
+	
+	/*END OF LOGIN FORM*/
+
+/**
+ * END OF DEFAULT THEME CSS
+ */
