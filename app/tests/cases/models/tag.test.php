@@ -7,7 +7,8 @@
 		var $fixtures = array(
 			'app.tag',
 			'app.task',
-			'app.user'
+			'app.user',
+			'app.tags_users'
 		);
 		
 		var $testTags = array(

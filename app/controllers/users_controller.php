@@ -9,42 +9,6 @@
 		
 		/**ACTIONS WITH A CORRESPONDING VIEW**/
 		
-		/**
-		 * Login action for the login view
-		 */
-		function login(){
-			
-			if($this->data) {
-				$username = $this->data['User']['username'];
-				$password = $this->data['User']['password'];
-			} else if(func_num_args() == 2) {
-				$username = func_get_arg(0);
-				$password = func_get_arg(1);
-			}
-			
-			if(isset($username) && isset($password)) {
-			
-				$verifies = $this->User->verify($username, $password);
-				
-				if($verifies) {
-					$this->Session->write("User", $this->User->find('first', array('conditions' => array('username' => $username))));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash("Wrong username or password", "user_notice");
-				}
-			
-			}
-			
-		}
-		
-		function register() {
-			if(!empty($this->data)) {				
-				if($this->User->register($this->data)) {
-					$this->set('registrated', true);
-				}
-			}			
-		}
-		
 		function dashboard() {
 			$this->set('user', $this->Session->read('User'));
 		}
@@ -67,6 +31,44 @@
 		
 		function index() {
 			$this->redirect(array('action' => 'dashboard'));
+		}
+		
+		function login(){
+			
+			if($this->data) {
+				$username = $this->data['User']['username'];
+				$password = $this->data['User']['password'];
+			} else if(func_num_args() == 2) {
+				$username = func_get_arg(0);
+				$password = func_get_arg(1);
+			}
+			
+			if(isset($username) && isset($password)) {
+			
+				$verifies = $this->User->verify($username, $password);
+				
+				if($verifies) {
+					$this->Session->write("User", $this->User->find('first', array('conditions' => array('username' => $username))));
+					$this->redirect(array('action' => 'index'));
+				} else {
+					$this->Session->setFlash("Wrong username or password", "user_notice");
+					$this->redirect($this->referer());
+				}
+			
+			}
+			
+		}
+		
+		function register() {
+			if(!empty($this->data)) {				
+				if($this->User->register($this->data)) {
+					$this->Session->setFlash("You are registered! Try logging in.", 'user_notice');
+					$this->redirect($this->referer());
+				} else {
+					$this->Session->setFlash("Something went wrong. Try again please.", 'user_error');
+					$this->redirect($this->referer());
+				}
+			}			
 		}
 		
 		function logout() {
@@ -106,6 +108,12 @@
 		
 		/**ACTIONS THAT ARE MADE TO BE REQUESTED**/
 		
+		function sidebar($action) {
+			if(!isset($this->params['requested'])) $this->cakeError("error404");
+			$options['sidebar']['elements'][0]['name'] = 'logout';
+			return $options;
+		}
+		
 		function isLoggedIn() {
 			if(!$this->params['requested']) $this->cakeError('error404');
 			
@@ -123,6 +131,30 @@
 			if(!$this->params['requested']) $this->cakeError('error404');
 			
 			return $this->Session->read('User');
+		}
+		
+		/**
+		 * 
+		 * @param optional int $userId
+		 * @return prefered tags
+		 */
+		function getPreferedTags($id = null) {
+			if(!$this->params['requested']) $this->cakeError('error404');
+			
+			$preferedTags = array();
+			
+			if($id) {
+				$preferedTags = $this->User->getPreferedTags($id);
+			} else {
+				$preferedTags = $this->User->getPreferedTags($this->requestAction(array('controller' => 'users', 'action' => 'getUserId')));
+			}
+			
+			if(!empty($preferedTags) && $preferedTags) {
+				return $preferedTags;
+			} else {
+				return false;
+			}
+			
 		}
 		
 	}

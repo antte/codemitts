@@ -11,40 +11,31 @@
 		echo $this->Html->css('style.css');
 		echo $this->Javascript->link('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 		echo $this->Javascript->link('http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js');
+		echo $this->Javascript->link('welcome.js');
+		echo $this->Javascript->link('login_form.js');
 		echo $scripts_for_layout;
 	?>
 	<!-- [if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 </head>
-<body class="default">
+<body class="welcome">
 	<section>
-		<header>
-			<h1><?php echo $html->link('CodeMitts', array('controller' => 'pages', 'action' => 'home'))?></h1>
-		</header>
-		<section>
-		
-			<header id="contentHeader">
-				<h2><?php echo $content_title; ?></h2>
-			</header>
+	
+		<section id="content">
 			
-			<section id="content">
-				
-				<?php echo $this->Session->flash(); ?>
-				
-				<?php echo $content_for_layout; ?>
-				
-			</section>
+			<h1><?php echo $content_title; ?></h1>
+
+			<?php echo $this->Session->flash(); ?>
 			
-			<aside id="sidebar">
-				<?php echo $this->element("sidebar");?>
-			</aside>
-		
+			<?php echo $content_for_layout; ?>
+			
 		</section>
-		<footer>
-			<?php echo $this->element('cake_power'); ?>
-			<?php echo $this->element('sql_dump'); ?>
-		</footer>
+		
+		<aside id="sidebar">
+			<?php echo $this->element("sidebar");?>
+		</aside>
+	
 	</section>
 </body>
 </html>

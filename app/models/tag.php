@@ -1,8 +1,12 @@
 <?php
 	class Tag extends AppModel {
 		var $hasAndBelongsToMany = array(
-			'User',
-			'Task'
+			'Task',
+			'User' => array('with' => 'TagsUser')
+		);
+		
+		var $hasMany = array(
+			'TagsUser'
 		);
 		
 		/**

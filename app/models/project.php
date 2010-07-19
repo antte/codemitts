@@ -1,12 +1,10 @@
 <?php
 	class Project extends AppModel {
-		var $belongsTo = 'User';
 		var $hasMany = 'Task';
 		var $automaticFields = array(
 			'id',
 			'created',
-			'modified',
-			'user_id'
+			'modified'
 		);
 		
 		/**

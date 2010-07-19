@@ -1,8 +1,13 @@
 <?php
 	class User extends AppModel {
 		
-		var $hasMany = 'Project';
-		var $hasAndBelongsToMany = array('Tag');
+		var $hasMany = array(
+			'TagsUser'
+		);
+		
+		var $hasAndBelongsToMany = array(
+			'Tag' => array('with' => 'TagsUser')
+		);
 		
 		var $validate = array(
 			'username' => array(
@@ -79,6 +84,15 @@
 			
 			$user = $this->save($data);
 			return !empty($user);
+		}
+		
+		/**
+		 * Fetch this users prefered tags.
+		 * @param $userId
+		 * @return array
+		 */
+		function getPreferedTags($userId) {
+			
 		}
 		
 	}

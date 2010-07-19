@@ -11,19 +11,39 @@
 			'Session'
 		);
 		
+		var $appControllerActionsPermittedWithoutLogin = array(
+			array('controller' => 'users', 'action' => 'isLoggedIn'),
+			array('controller' => 'any', 'action' => 'appSidebar'),
+			array('controller' => 'any', 'action' => 'sidebar'),
+			array('controller' => 'any', 'action' => 'getContentTitle'),
+		);
+		
+		var $defaultContentTitle = "Codemitts";
+		
+		function beforeRender() {
+			$this->set('content_title', $this->getContentTitle());
+		}
+		
 		/**
-		 * This function will be called each time a user requests a new page
+		 * This function will be called:
+		 *  each time a user requests a new page
+		 *  each time an action is requested
+		 *  
 		 * (non-PHPdoc)
 		 * @see cake/libs/controller/Controller#beforeFilter()
 		 */
 		function beforeFilter() {
 			
-			if( 
-				//We want to always allow the application to check if the user is logged in
-				$this->params['action'] == 'isLoggedIn' && 
-				$this->params['controller'] == 'users'
-			) {
-				return; //proceed as normal
+			foreach($this->appControllerActionsPermittedWithoutLogin as $pair) {
+				if(
+					$this->params['action'] == $pair['action'] &&
+					(
+						$this->params['controller'] == $pair['controller'] || 
+						$pair['controller'] === 'any'
+					)
+				) {
+					return; //proceed as normal
+				}
 			}
 			
 			if( 
@@ -59,6 +79,38 @@
 				return false;
 			}
 			
+		}
+		
+		function sidebar($action) {
+			//Fallback
+			return array();
+		}
+		
+		function appSidebar($action) {
+			
+			if(!isset($this->params['requested'])) $this->cakeError("error404");
+			
+			return $this->requestAction( 
+				array(
+					'controller' => $this->params['controller'], 
+					'action' => 'sidebar'
+				),
+				array(
+					'pass' => array($action)
+				)
+			);
+		}
+		
+		protected function getContentTitle() {
+			if(isset($this->contentTitles)) {
+				if($this->params['controller'] == 'pages') {
+					//pages controller needs to be handled differently because it renders views differently (with display)
+					return $this->contentTitles[$this->params['pass'][0]];
+				}
+				return $this->contentTitles[$this->params['action']];
+			} else {
+				return $this->defaultContentTitle;
+			}
 		}
 		
 	}

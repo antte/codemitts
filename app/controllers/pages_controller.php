@@ -7,6 +7,21 @@
 			'display'
 		);
 		
+		var $contentTitles = array(
+			'home' => 'Welcome to Codemitts'
+		);
+		
+		function sidebar($action) {
+			if(!isset($this->params['requested'])) $this->cakeError("error404");
+			
+			$options = array();
+			
+			if($action == "display") $options['sidebar']['elements'][0]['name'] = 'login_form';
+			
+			return $options;
+			
+		}
+		
 		/**
 		 * Displays a view
 		 * 
@@ -33,6 +48,11 @@
 				$title_for_layout = Inflector::humanize($path[$count - 1]);
 			}
 			$this->set(compact('page', 'subpage', 'title_for_layout'));
+			
+			if($page == "home") {
+				$this->layout = "welcome";
+			}
+			
 			$this->render(implode('/', $path));
 		}
 		

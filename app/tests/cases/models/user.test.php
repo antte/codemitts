@@ -7,7 +7,8 @@
 		var $fixtures = array(
 			'app.user',
 			'app.tag',
-			'app.project'
+			'app.project',
+			'app.tags_users'
 		);
 		
 		var $testUsers = array(
@@ -80,6 +81,11 @@
 				
 			}
 			
+		}
+		
+		function testGetPreferedTags() {
+			$this->User->useDbConfig = "test";
+			debug($this->User->Tag->find('all'));
 		}
 		
 	}

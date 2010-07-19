@@ -95,7 +95,7 @@ p {
  */
 
 /*
- * DEFAULT THEME CSS
+ * DEFAULT LAYOUT CSS
  * 
 	Color-theme: "madmen" from kuler.adobe.com
 	Dark red: 		#521000 rgb( 82, 16, 0 )
@@ -118,103 +118,177 @@ body.default > section {
 	background: #fff;
 	color: #333;
 	margin: 0 auto;
+	overflow: hidden;
 	
 	-moz-border-radius: 0 0 4px 4px;
 	border-radius: 0 0 4px 4px;
 }
 
-header, #content, footer {
+body.default > section > section {
+	overflow: hidden;
+}
+
+body.default > section > header,
+body.default #contentHeader,
+body.default #content,
+body.default #sidebar,
+body.default > section > footer {
 	padding: 20px;
 }
 
-header {
+body.default > section > header {
 	border-bottom: 1px dotted #ccc;
 }
 
-footer {
+body.default #content {
+	float: left;
+	width: 615px;
+}
+
+body.default #sidebar {
+	float: right;
+	width: 265px;
+}
+
+body.default > section > footer {
+	float: left;
+	clear: both;
+	width: 920px;
 	border-top: 1px dotted #ccc;
 }
 
-a{
+body.default a {
 	color: #744E1D;
 	text-decoration: none;		
 }
 
-a:hover{
+body.default a:hover {
 	text-decoration: underline;
 }
 
-form#TaskRandomForm {
-	width: 220px;
-	padding: 10px;
-	font-family: Helvetica, Arial, Verdana, sans-serif;
-	overflow: hidden;
-}
-form#TaskRandomForm div {
-	float: left;
-}
-form#TaskRandomForm div.submit {
-	margin-left: 10px;
-}
-form#TaskRandomForm div.input.select {
-	margin-top: 10px;
-}
-form#TaskRandomForm label {
-	margin-right: 10px;
-}
-form#TaskRandomForm input[type="submit"] {
-	font-size: 20px;
-	font-weight: bold;
-	height: 40px;
-	background-image: url('../img/random_button_gradient.jpg');
-	background-repeat: repeat-x;
-	border: 0;
-	color: white;
-	-moz-border-radius: 20px;
-	border: 1px solid black;
-	cursor: pointer;
-}
-form#TaskRandomForm input[type="submit"]:hover,
-form#TaskRandomForm input[type="submit"]:active
-{
-	background-image: none;
-	background-color: #744E1D;
-}
-form#TaskRandomForm input[type="submit"]:active {
-	position: relative;
-	top: 1px;
-	left: 1px;
+body.default #logout {
+	float: right;
 }
 
-ul#tasks > li {
-	text-indent: 1.5em;
-	padding: 5px;
+/**
+ * END OF DEFAULT LAYOUT CSS
+ */
+
+/*
+ * WELCOME LAYOUT CSS
+ * 
+	same as default
+	Color-theme: "madmen" from kuler.adobe.com
+	Dark red: 		#521000 rgb( 82, 16, 0 )
+	Lighter red:	#712800 rgb( 113, 40, 0 )
+	Cardboard:		#744E1D rgb( 116, 78, 29 )
+	Turqoise:		#879666 rgb( 135, 150, 102 )
+	Beige:			#F1D98C rgb( 241, 217, 140 )
+*/
+
+body.welcome {
+	background: #333 url(../img/bg_pattern.jpg);
+	color: #eee;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.75em;
+	line-height: 1.7em;
 }
-ul#tasks p {
+
+body.welcome > section {
+	width: 710px;
+	margin: 13% auto 0 auto;
+	overflow: hidden;
+}
+
+body.welcome > section > section {
+	width: 365px;
+	float: left;
+	padding: 20px;
+	overflow: hidden;
+	text-shadow: 1px 1px rgba(55,55,55,1);
+}
+
+body.welcome > section > aside {
+	width: 265px;
+	float: right;
+	padding: 20px;
+}
+
+body.welcome .welcome.message {
+	width: 365px;
 	margin: 0;
 }
-ul#tasks > li.active {
-	background-color: #879666;
-}
-div.tags {
-	overflow: hidden;
-	clear: right;
-}
-div.tags ul {
-	color: #555;
-}
-div.tags h4 ,
-div.tags li {
-	float: left;
-}
+
+
+/**
+ * END OF WELCOME LAYOUT CSS
+ */
+
+	/*TASKS AND TAGS STYLE*/
+	
+	ul#tasks > li {
+		text-indent: 1.5em;
+		padding: 5px;
+	}
+	ul#tasks p {
+		margin: 0;
+	}
+	ul#tasks > li.active {
+		background-color: #879666;
+	}
+	div.tags {
+		overflow: hidden;
+		clear: right;
+	}
+	div.tags ul {
+		color: #555;
+	}
+	div.tags h4 ,
+	div.tags li {
+		float: left;
+	}
+	/*END OF TASKS AND TAGS STYLE*/
+
+	/*RANDOM TASK BUTTON STYLE*/
+	
+	#TaskRandomButton {
+		display: block;
+		width: 250px;
+		text-align: center;
+		vertical-align: middle;
+		font-family: Helvetica, Arial, Verdana, sans-serif;
+		font-size: 20px;
+		font-weight: bold;
+		height: 30px;
+		line-height: 30px;
+		padding: 5px;
+		background: repeat-x url('../img/random_button_gradient.jpg');
+		color: white;
+		-moz-border-radius: 20px;
+		border: 1px solid black;
+		cursor: pointer;
+	}
+	#TaskRandomButton:hover,
+	#TaskRandomButton:active
+	{
+		text-decoration: none;
+		background-image: url('../img/random_button_gradient_hover.jpg');
+	}
+	#TaskRandomButton:active {
+		position: relative;
+		top: 1px;
+		left: 1px;
+	}
+
+	/*END OF RANDOM TASK BUTTON STYLE*/
+
 	/*MESSAGES STYLE*/
 	
 	.message {
 		border: 1px solid rgba(0, 0, 0, 0.4);
 		-moz-border-radius: 4px;
 		border-radius: 4px;
-		max-width: 225px;
-		margin: 10px auto;
+		margin: 0 auto 10px auto;
 		padding: 10px;
 	}
 	
@@ -292,7 +366,3 @@ div.tags li {
 	}
 	
 	/*END OF LOGIN FORM*/
-
-/**
- * END OF DEFAULT THEME CSS
- */
