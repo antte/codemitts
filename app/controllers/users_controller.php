@@ -7,6 +7,17 @@
 			'register'
 		);
 		
+		protected $actionsToAppearInNavigation = array(
+			0 => array(
+				'label' 	=> 'Dashboard',
+				'action' 	=> 'dashboard',
+			),
+			1 => array(
+				'label' 	=> 'Tags',
+				'action' 	=> 'editTags',
+			),
+		);
+		
 		/**ACTIONS WITH A CORRESPONDING VIEW**/
 		
 		function dashboard() {

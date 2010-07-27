@@ -21,6 +21,7 @@
 	<section>
 		<header>
 			<h1><?php echo $html->link('CodeMitts', array('controller' => 'pages', 'action' => 'home'))?></h1>
+			<?php echo $this->element('nav'); ?>
 		</header>
 		<section>
 		
@@ -37,7 +38,7 @@
 			</section>
 			
 			<aside id="sidebar">
-				<?php echo $this->element("sidebar");?>
+				<?php echo $this->element('sidebar');?>
 			</aside>
 		
 		</section>

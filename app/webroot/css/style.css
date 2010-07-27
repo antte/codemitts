@@ -61,7 +61,11 @@ table {
  * SITE WIDE CSS
  */
 
-section, aside, header, footer {
+section, aside, header, footer, nav {
+	/* 
+	 * Per default these html5 elements seem to take no space in the layout.
+	 * This fixes the problem. 
+	 * */
 	display: block;
 }
 
@@ -106,35 +110,145 @@ p {
 */
 
 body.default {
-	background: #333 url(../img/bg_pattern.jpg);
-	color: #eee;
-	font-family: Verdana, Arial, sans-serif;
-	font-size: 0.75em;
-	line-height: 1.7em;
+	background: 	#333 url(../img/bg_pattern.jpg);
+	color: 			#eee;
+	font-family: 	Verdana, Arial, sans-serif;
+	font-size: 		0.75em;
+	line-height:	1.7em;
 }
 
 body.default > section {
-	width: 960px;
-	background: #fff;
-	color: #333;
-	margin: 0 auto;
-	overflow: hidden;
-	
-	-moz-border-radius: 0 0 4px 4px;
-	border-radius: 0 0 4px 4px;
+	width: 					960px;
+	background: 			#fff;
+	color: 					#333;
+	margin: 				0 auto;
+	overflow: 				hidden;
+	-moz-border-radius: 	0px 0px 4px 4px;
+	-webkit-border-radius: 	0px 0px 4px 4px;
+	border-radius: 			0px 0px 4px 4px;
 }
 
 body.default > section > section {
 	overflow: hidden;
+	background-image: url('../img/content_header_top_border.jpg'); /* #F1D98C 70px high matches .current main nav element*/
+	background-repeat: repeat-x;
+	background-color: white;
 }
 
-body.default > section > header,
+body.default > section > section > header, 
+body.default > section > section > aside, 
+body.default > section > section > section {
+	background-color: white;
+} 
+
+body.default > section > header h1 {
+	padding: 20px 20px 0px 20px;
+}
+
+	/**
+	 * DEFAULT LAYOUT NAVIGATION STYLE
+	 */
+	
+	body.default > section > header nav {
+		height: 32px;
+		width: 960px;
+		position: relative;
+	}
+	
+	body.default > section > header nav > ul {
+		position: absolute;
+		right: 20px;
+		bottom: -1px;
+		z-index: 10000;
+		height: 32px;
+	}
+	
+	body.default > section > header nav > ul > li {
+		height: 30px;
+		float: left;
+		background-color: #e8e8e8;
+		border-width: 1px 1px 0px 1px;
+		border-style: dotted;
+		border-color: #ccc;
+		font-family: trebuchet, "Trebuchet MS", tahoma, arial, sans-serif;
+	}
+	
+	body.default > section > header nav > ul > li > a {
+		display: block;
+		padding: 7px;
+		line-height: 16px;
+		height: 16px;
+		color: #521000;		
+	}
+	
+	body.default > section > header nav > ul > li.current {
+		background-color: #F1D98C;
+		border-bottom-color: #F1D98C;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+	}
+	
+	body.default > section > header nav > ul > li.not_current:hover {
+		background-color: white;
+	}
+
+	body.default > section > header nav > ul > li > ul {
+		position: absolute;
+		top: 37px;
+		right: 0px;
+	}
+	
+	body.default > section > header nav > ul > li > ul > li {
+		float: right;
+		font-size: 0.9em;
+		height: 24px;
+		background-color: #e8e8e8;
+		border: 1px dotted #ccc;
+	}
+	
+	body.default > section > header nav > ul > li > ul {
+		width: 920px;
+	}
+
+	body.default > section > header nav > ul > li > ul > li.current {
+		background-color: white;
+		border-bottom-color: white;
+	}
+	
+	body.default > section > header nav > ul > li > ul > li > a {
+		padding: 5px;
+		height: 12px;
+		line-height: 12px;
+		position: relative;
+		top: 2px;
+		color: #521000;
+	}
+	body.default > section > header nav > ul > li > ul > li > a:hover {
+		text-decoration: underline;
+	}
+	
+	body.default > section > section > #contentHeader {
+		border-top: 1px dotted #ccc;
+		margin-top: 30px;
+	}
+	
+	
+	/**
+	 * END OF DEFAULT LAYOUT NAVIGATION STYLE
+	 */
+
 body.default #contentHeader,
 body.default #content,
 body.default #sidebar,
 body.default > section > footer {
 	padding: 20px;
 }
+
+body.default > section > header,
+body.default > section > footer {
+	background-color: #eee;
+}
+
 
 body.default > section > header {
 	border-bottom: 1px dotted #ccc;
@@ -151,19 +265,18 @@ body.default #sidebar {
 }
 
 body.default > section > footer {
-	float: left;
-	clear: both;
-	width: 920px;
-	border-top: 1px dotted #ccc;
+	float: 					left;
+	clear: 					both;
+	width: 					920px;
+	border-top: 			1px dotted #ccc;
+	-moz-border-radius: 	0px 0px 4px 4px;
+	-webkit-border-radius: 	0px 0px 4px 4px;
+	border-radius: 			0px 0px 4px 4px;
 }
 
 body.default a {
 	color: #744E1D;
 	text-decoration: none;		
-}
-
-body.default a:hover {
-	text-decoration: underline;
 }
 
 body.default #logout {
