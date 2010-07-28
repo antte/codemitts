@@ -24,7 +24,7 @@
 	
 		<section id="content">
 			
-			<h1><?php echo $content_title; ?></h1>
+			<?php if(isset($content_title)) echo '<h1>' . $content_title . '</h1>'; ?>
 
 			<?php echo $this->Session->flash(); ?>
 			
