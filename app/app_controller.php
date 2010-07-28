@@ -18,8 +18,6 @@
 			array('controller' => 'any', 'action' => 'getContentTitle'),
 		);
 		
-		private $defaultContentTitle = "Codemitts";
-		
 		private $controllersToAppearInNavigation = array(
 			'users',
 			'tasks',
@@ -27,10 +25,6 @@
 		);
 		
 		private $navElements = array();
-		
-		function beforeRender() {
-			$this->set('content_title', $this->getContentTitle());
-		}
 		
 		/**
 		 * This function will be called:
@@ -55,9 +49,11 @@
 			}
 			
 			if( 
-				//primitive UAC
-				!$this->requestAction(array('controller' => 'users', 'action' => 'isLoggedIn')) &&
-				!$this->actionIsPermittedWithoutLogin()
+				!$this->requestAction(array(
+					'controller' => 'users', 
+					'action' => 'isLoggedIn',
+				))
+			 && !$this->actionIsPermittedWithoutLogin()
 			) {
 				$this->Session->setFlash("You have to be logged in to do that.", "user_error");
 				$this->redirect(array('controller' => 'users', 'action' => 'login'));
@@ -88,6 +84,7 @@
 			}
 			
 		}
+		
 		/*
 		 * This function is meant to be overridden by a controller
 		 */
@@ -109,18 +106,6 @@
 					'pass' => array($action)
 				)
 			);
-		}
-		
-		protected function getContentTitle() {
-			if(isset($this->contentTitles)) {
-				if($this->params['controller'] == 'pages') {
-					//pages controller needs to be handled differently because it renders views differently (with display)
-					return $this->contentTitles[$this->params['pass'][0]];
-				}
-				return $this->contentTitles[$this->params['action']];
-			} else {
-				return $this->defaultContentTitle;
-			}
 		}
 		
 		public function getHumanTitle() {

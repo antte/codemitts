@@ -89,9 +89,18 @@
 		/**
 		 * Fetch this users prefered tags.
 		 * @param $userId
-		 * @return array
+		 * @return array with strings
 		 */
 		function getPreferedTags($userId) {
+			
+			$tags = array();
+			$user = $this->findById($userId); 
+			
+			foreach($user['Tag'] as $tag) {
+				$tags[] = $tag['name'];
+			}
+			
+			return $tags;
 			
 		}
 		

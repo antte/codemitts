@@ -1,4 +1,4 @@
-<h1>Logged in as <span class="username"><?php echo $user['User']['username']; ?></span></h1>
+<?php $this->set('content_title', $user['User']['username']);?>
 <h2>Your preferred tags:</h2>
 <?php if(empty($user['Tag']) || !isset($user['Tag']) ):?>
 	<p>You don't have any preferred tags yet, you can <?php echo $html->link('create preferred tags here', array('action' => 'editTags'));?>.</p>	

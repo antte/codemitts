@@ -1,6 +1,27 @@
 <?php
 	class TasksController extends AppController {
 		
+		protected $actionsToAppearInNavigation = array(
+			1 => array(
+				'label' 	=> 'Give me a random task!',
+				'action' 	=> 'random',
+			),
+		);
+		
+		public function index() {
+			$this->redirect(array('action' => 'view'));
+		}
+		
+		public function view($name = null) {
+			
+			if($name) {
+				$this->set('task', $this->Task->findByName($name));
+			} else {
+				$this->set('tasks', $this->Task->find('all'));
+			}
+			
+		}
+		
 		/**
 		 * Tries to find a task for the user based upon his preferences
 		 * puts that task in session and redirects to next step in the process
@@ -10,8 +31,16 @@
 			
 			$preferedTags = $this->requestAction(array('controller' => 'users', 'action' => 'getPreferedTags'));
 			
-			//Given array of tags give any task of that tag
-			$this->Task->random();
+			$task = $this->Task->random($preferedTags);
+			
+			if(!$task) {
+				$this->Session->setFlash("Sorry, couldn't find a task for you.", 'user_notice');
+				$this->redirect(array('controller' => 'users', 'action' => 'index'));
+			}
+			
+			$this->Session->write('doTask', $task);
+			
+			$this->redirect(array('action' => 'view', $task['Task']['name']));
 			
 		}
 		

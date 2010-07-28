@@ -20,13 +20,14 @@
 <body class="default">
 	<section>
 		<header>
+			<?php echo $this->element('login_status'); ?>
 			<h1><?php echo $html->link('CodeMitts', array('controller' => 'pages', 'action' => 'home'))?></h1>
 			<?php echo $this->element('nav'); ?>
 		</header>
 		<section>
 		
 			<header id="contentHeader">
-				<h2><?php echo $content_title; ?></h2>
+				<?php if(isset($content_title)) echo '<h2>' . $content_title . '</h2>'; ?>
 			</header>
 			
 			<section id="content">

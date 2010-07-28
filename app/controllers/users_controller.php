@@ -2,15 +2,17 @@
 	
 	class UsersController extends AppController {
 		
-		var $actionsPermittedWithoutLogin = array(
+		public $humanTitle = "User";
+		
+		protected $actionsPermittedWithoutLogin = array(
 			'login',
 			'register'
 		);
 		
 		protected $actionsToAppearInNavigation = array(
 			0 => array(
-				'label' 	=> 'Dashboard',
-				'action' 	=> 'dashboard',
+				'label' 	=> 'Profile',
+				'action' 	=> 'view',
 			),
 			1 => array(
 				'label' 	=> 'Tags',
@@ -18,9 +20,10 @@
 			),
 		);
 		
+		
 		/**ACTIONS WITH A CORRESPONDING VIEW**/
 		
-		function dashboard() {
+		function view($user = null) {
 			$this->set('user', $this->Session->read('User'));
 		}
 		
@@ -41,7 +44,7 @@
 		/**ACTIONS WITHOUT A VIEW**/
 		
 		function index() {
-			$this->redirect(array('action' => 'dashboard'));
+			$this->redirect(array('action' => 'view'));
 		}
 		
 		function login(){
@@ -118,12 +121,6 @@
 		}
 		
 		/**ACTIONS THAT ARE MADE TO BE REQUESTED**/
-		
-		function sidebar($action) {
-			if(!isset($this->params['requested'])) $this->cakeError("error404");
-			$options['sidebar']['elements'][0]['name'] = 'logout';
-			return $options;
-		}
 		
 		function isLoggedIn() {
 			if(!$this->params['requested']) $this->cakeError('error404');

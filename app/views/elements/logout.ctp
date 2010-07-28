@@ -1,1 +1,0 @@
-<?php echo $html->link('Log out', array('controller' => 'users', 'action' => 'logout'), array('id' => 'logout'), 'Sure you want to log out?'); ?>

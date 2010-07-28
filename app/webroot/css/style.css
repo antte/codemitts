@@ -89,10 +89,6 @@ h5 {
 	font-size: 10px;
 	margin-bottom: 5px;
 }
-p {
-	margin-bottom: 1.5em;
-	max-width: 550px;
-}
 
 /*
  * END OF SITE WIDE CSS
@@ -149,13 +145,13 @@ body.default > section > header h1 {
 	 * DEFAULT LAYOUT NAVIGATION STYLE
 	 */
 	
-	body.default > section > header nav {
+	body.default > section > header nav#main_nav {
 		height: 32px;
 		width: 960px;
 		position: relative;
 	}
 	
-	body.default > section > header nav > ul {
+	body.default > section > header nav#main_nav > ul {
 		position: absolute;
 		right: 20px;
 		bottom: -1px;
@@ -163,7 +159,7 @@ body.default > section > header h1 {
 		height: 32px;
 	}
 	
-	body.default > section > header nav > ul > li {
+	body.default > section > header nav#main_nav > ul > li {
 		height: 30px;
 		float: left;
 		background-color: #e8e8e8;
@@ -173,7 +169,13 @@ body.default > section > header h1 {
 		font-family: trebuchet, "Trebuchet MS", tahoma, arial, sans-serif;
 	}
 	
-	body.default > section > header nav > ul > li > a {
+	body.default > section > header nav#main_nav > ul li {
+		-moz-border-radius: 4px 4px 0px 0px;
+		-webkit-border-radius: 4px 4px 0px 0px;
+		border-radius: 4px 4px 0px 0px;
+	}
+	
+	body.default > section > header nav#main_nav > ul > li > a {
 		display: block;
 		padding: 7px;
 		line-height: 16px;
@@ -181,24 +183,24 @@ body.default > section > header h1 {
 		color: #521000;		
 	}
 	
-	body.default > section > header nav > ul > li.current {
+	body.default > section > header nav#main_nav > ul > li.current {
 		background-color: #F1D98C;
 		border-bottom-color: #F1D98C;
 		border-bottom-width: 1px;
 		border-bottom-style: solid;
 	}
 	
-	body.default > section > header nav > ul > li.not_current:hover {
+	body.default > section > header nav#main_nav > ul > li.not_current:hover {
 		background-color: white;
 	}
 
-	body.default > section > header nav > ul > li > ul {
+	body.default > section > header nav#main_nav > ul > li > ul {
 		position: absolute;
 		top: 37px;
 		right: 0px;
 	}
 	
-	body.default > section > header nav > ul > li > ul > li {
+	body.default > section > header nav#main_nav > ul > li > ul > li {
 		float: right;
 		font-size: 0.9em;
 		height: 24px;
@@ -206,16 +208,16 @@ body.default > section > header h1 {
 		border: 1px dotted #ccc;
 	}
 	
-	body.default > section > header nav > ul > li > ul {
+	body.default > section > header nav#main_nav > ul > li > ul {
 		width: 920px;
 	}
 
-	body.default > section > header nav > ul > li > ul > li.current {
+	body.default > section > header nav#main_nav > ul > li > ul > li.current {
 		background-color: white;
 		border-bottom-color: white;
 	}
 	
-	body.default > section > header nav > ul > li > ul > li > a {
+	body.default > section > header nav#main_nav > ul > li > ul > li > a {
 		padding: 5px;
 		height: 12px;
 		line-height: 12px;
@@ -223,7 +225,7 @@ body.default > section > header h1 {
 		top: 2px;
 		color: #521000;
 	}
-	body.default > section > header nav > ul > li > ul > li > a:hover {
+	body.default > section > header nav#main_nav > ul > li > ul > li > a:hover {
 		text-decoration: underline;
 	}
 	
@@ -235,6 +237,22 @@ body.default > section > header h1 {
 	
 	/**
 	 * END OF DEFAULT LAYOUT NAVIGATION STYLE
+	 */
+	
+	/**
+	 * DEFAULT LAYOUT LOGIN STATUS STYLE
+	 */
+	
+	body.default > section > header #login_status {
+		float: 			right;
+		padding: 		4px;
+		margin: 		0px 6px;
+		height: 		24px;
+		line-height: 	24px;
+	}
+	
+	/**
+	 * END OF DEFAULT LAYOUT LOGIN STATUS STYLE
 	 */
 
 body.default #contentHeader,

@@ -12,27 +12,48 @@
 		);
 		
 		/**
-		 * Given a tag return a random task with that tag
-		 * @params mixed
+		 * Return a random task that has any of the given tags
+		 * @param array $tags
+		 * @param boolean $inclusive
 		 * @return a task
 		 */
-		function random() {
+		function random($tags = array()) {
 			
-			if(func_num_args() == 1) {
-				
-				if(!($dataSet = $this->Tag->findByName(func_get_arg(0))))
-					$dataSet = $this->Tag->findById(func_get_arg(0));
+			$tasks = $this->find('all');
+			
+			if(!empty($tags)) {
+				for($i = 0; $i < sizeof($tasks); $i++) {
 					
-				if($return = $dataSet['Task'][rand( 0, (sizeof($dataSet['Task'])-1))]) {
-					return $return;
-				} else {
-					return false;
+					$hasAnyOfTheTags = false;
+					
+					foreach($tasks[$i]['Tag'] as $taskTag) {
+						foreach($tags as $tag) {
+							if($taskTag['name'] == $tag) {
+								$hasAnyOfTheTags = true;
+							}
+						}
+					}
+					
+					if($hasAnyOfTheTags) {
+						continue;
+					} else {
+						unset($tasks[$i]);
+					}
+					
+				}
+			}
+			
+			$random = rand( 0 ,(sizeof($tasks)-1) );
+			
+			$i = 0;
+			
+			foreach($tasks as $task) {
+				
+				if($i == $random) {
+					return $task;
 				}
 				
-			} else {
-				
-				$dataSet = $this->find('all');
-				return $dataSet[rand( 0 ,(sizeof($dataSet)-1) )]['Task'];
+				$i++;
 				
 			}
 			

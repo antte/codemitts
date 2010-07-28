@@ -6,7 +6,7 @@
 )); ?>
 
 <?php if (isset($nav_elements) && !empty($nav_elements)) : ?>
-	<nav>
+	<nav id="main_nav">
 		<ul>
 			<?php foreach($nav_elements as $nav_element) : ?>
 				<li <?php 
