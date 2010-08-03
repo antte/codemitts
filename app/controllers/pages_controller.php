@@ -3,13 +3,13 @@
 		
 		var $uses = array();
 		
-		var $actionsPermittedWithoutLogin = array(
-			'display'
-		);
-		
 		var $contentTitles = array(
 			'home' => 'Welcome to Codemitts'
 		);
+		
+		function beforeFilter() {
+			$this->Auth->allow('display', 'home');
+		}
 		
 		function sidebar($action) {
 			if(!isset($this->params['requested'])) $this->cakeError("error404");
@@ -50,7 +50,7 @@
 			$this->set(compact('page', 'subpage', 'title_for_layout'));
 			
 			if($page == "home") {
-				$this->layout = "welcome";
+				$this->redirect(array('controller' => 'users', 'action' => 'login'));
 			}
 			
 			$this->render(implode('/', $path));

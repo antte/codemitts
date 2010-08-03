@@ -33,12 +33,12 @@
 			
 			$task = $this->Task->random($preferedTags);
 			
-			if(!$task) {
+			if(!$task || empty($task)) {
 				$this->Session->setFlash("Sorry, couldn't find a task for you.", 'user_notice');
 				$this->redirect(array('controller' => 'users', 'action' => 'index'));
 			}
 			
-			$this->Session->write('doTask', $task);
+			//$this->Task->lock($task['Task']['id'], ClassRegistry::init('UsersController')->getUserId());
 			
 			$this->redirect(array('action' => 'view', $task['Task']['name']));
 			

@@ -1,3 +1,4 @@
+<?php echo $this->Javascript->link('login_form.js'); ?>
 <section id="loginForm">
 	<?php 
 		echo $form->create('User', array('action' => 'login'));

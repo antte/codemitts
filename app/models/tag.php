@@ -1,12 +1,13 @@
 <?php
 	class Tag extends AppModel {
 		var $hasAndBelongsToMany = array(
-			'Task',
-			'User' => array('with' => 'TagsUser')
+			'Task' => array('with' => 'TagsTask'),
+			'User' => array('with' => 'TagsUser'),
 		);
 		
 		var $hasMany = array(
-			'TagsUser'
+			'TagsUser',
+			'TagsTask',
 		);
 		
 		/**
@@ -29,6 +30,33 @@
 					return false;
 				}
 			}
+			
+		}
+		
+		public function getTagIdByName($mixed) {
+			
+			$tagNames = array();
+			
+			if(is_string($mixed)) {
+				$tagNames[0] = $mixed;
+			} else if (is_array($mixed)) {
+				$tagNames = $mixed;
+			} else {
+				return false;
+			}
+			
+			$tagIds = array();
+			
+			foreach($tagNames as $tagName) {
+				$tag = $this->find('first', array('conditions' => array('Tag.name' => $tagName), 'fields' => array('Tag.id'), 'recursive' => -1));
+				$tagIds[] = $tag['Tag']['id'];
+			}
+			
+			if(is_string($mixed)) {
+				return $tagIds[0];
+			}
+			
+			return $tagIds;
 			
 		}
 		

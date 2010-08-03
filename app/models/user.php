@@ -1,15 +1,15 @@
 <?php
 	class User extends AppModel {
 		
-		var $hasMany = array(
-			'TagsUser'
+		public $hasMany = array(
+			'TagsUser',
 		);
 		
-		var $hasAndBelongsToMany = array(
+		public $hasAndBelongsToMany = array(
 			'Tag' => array('with' => 'TagsUser')
 		);
 		
-		var $validate = array(
+		public $validate = array(
 			'username' => array(
 				'alphaNumeric' => array(
 					'rule' => 'alphaNumeric',
@@ -27,13 +27,13 @@
 					'message' => 'Password must be between 4 and 64 characters.'
 				)
 			),
-			'repassword' => array (
-	 			'password_verification' => array(
-					'rule' => array('sameAs', 'password'),
-					'message' => 'You have to fill in the same password again.'
-				)
-	 		)
 		);
+		
+		public function setState($user) {
+			$this->user = $user;
+			$user = $this->findById($user['User']['id']);
+			$this->user['Tag'] = $user['Tag'];
+		}
 		
 		/**
 		 * Verifies that $username and $password is a valid user
@@ -41,7 +41,7 @@
 		 * @param $password
 		 * @return boolean
 		 */
-		function verify($username, $password) {
+		public function verify($username, $password) {
 			
 			//Assumes username is unique
 			$user = $this->find('first', array('conditions' => array('username' => $username), 'recursive' => -1));
@@ -74,27 +74,18 @@
 		}
 		
 		/**
-		 * 
-		 * @param $data User data
-		 * @return true on success
-		 */
-		function register($data = null) {
-			$data['User']['password'] = md5($data['User']['password']);
-			$data['User']['repassword'] = md5($data['User']['repassword']);
-			
-			$user = $this->save($data);
-			return !empty($user);
-		}
-		
-		/**
 		 * Fetch this users prefered tags.
 		 * @param $userId
 		 * @return array with strings
 		 */
-		function getPreferedTags($userId) {
+		function getPreferedTags($userId = null) {
+			
+			if(is_null($userId)) {
+				$userId = $this->user['User']['id'];
+			}
 			
 			$tags = array();
-			$user = $this->findById($userId); 
+			$user = $this->findById($userId);
 			
 			foreach($user['Tag'] as $tag) {
 				$tags[] = $tag['name'];
@@ -102,6 +93,40 @@
 			
 			return $tags;
 			
+		}
+		/*
+		 * Checks if username is available
+		 */
+		function available($username) {
+			
+			if(!$username) {
+				return false;
+			}
+			
+			$user = $this->find('first', array('conditions' => array('User.username' => $username),'recursive' => -1));
+			
+			return empty($user);
+			
+		}
+		
+		public function isLoggedIn() {
+			return ($this->user);
+		}
+		
+		public function getUserId() {
+			return $this->user['User']['id'];
+		}
+		
+		public function getUser($mixed = null) {
+			if(is_null($mixed)) {
+				return $this->user;
+			} else if (is_integer($mixed)) {
+				return $this->find('first', array('recursive' => -1, 'conditions' => array('User.id' => $mixed)));
+			} else if (is_string($mixed)) {
+				return $this->find('first', array('recursive' => -1, 'conditions' => array('User.username' => $mixed)));
+			} else {
+				return false;
+			}
 		}
 		
 	}

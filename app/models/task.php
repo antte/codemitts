@@ -1,14 +1,13 @@
 <?php
 	class Task extends AppModel {
 		
-		var $belongsTo = 'Project';
+		var $belongsTo = array(
+			'Project',
+		);
+		var $hasMany = array('TagsTask');
+		private $lockTime = 1800; //seconds
 		var $hasAndBelongsToMany = array(
-			'Tag' => array(
-				'className' =>  'Tag',
-				'joinTable' => 'tags_tasks',
-				'foreignKey' => 'task_id',
-				'associationForeignKey' => 'tag_id'
-			)
+			'Tag' => array('with' => 'TagsTask')
 		);
 		
 		/**
@@ -17,46 +16,123 @@
 		 * @param boolean $inclusive
 		 * @return a task
 		 */
-		function random($tags = array()) {
+		public function random($tags = array()) {
 			
-			$tasks = $this->find('all');
+			$tasks = array();
 			
 			if(!empty($tags)) {
-				for($i = 0; $i < sizeof($tasks); $i++) {
+				
+				$tags = $this->Tag->getTagIdByName($tags);
+
+				$tagstasks = $this->TagsTask->find('all', array('recursive' => -1, 'conditions' => array('TagsTask.tag_id' => $tags)));
+				
+				$taskIds = array();
+				
+				foreach($tagstasks as $tagtask) {
+					//God, what am i doing? Say tagstasks quickly 10 times.
 					
-					$hasAnyOfTheTags = false;
-					
-					foreach($tasks[$i]['Tag'] as $taskTag) {
-						foreach($tags as $tag) {
-							if($taskTag['name'] == $tag) {
-								$hasAnyOfTheTags = true;
-							}
-						}
-					}
-					
-					if($hasAnyOfTheTags) {
-						continue;
-					} else {
-						unset($tasks[$i]);
+					if(!$this->isLocked($tagtask['TagsTask']['task_id'])) {
+						$taskIds[] = $tagtask['TagsTask']['task_id'];
 					}
 					
 				}
+				
+				if(empty($taskIds)) return false;
+				
+				$tasks = $this->find('all', array('conditions' => array('Task.id' => $taskIds)));
+				
+			} else {
+				$tasks = $this->Task->find('all');
 			}
 			
-			$random = rand( 0 ,(sizeof($tasks)-1) );
+			return $tasks[rand( 0 ,(sizeof($tasks)-1) )];
 			
-			$i = 0;
+		}
+		
+		/**
+		 * Determines if a task is locked
+		 * @return true if task is locked, false if not
+		 */
+		public function isLocked($taskId = null) {
 			
-			foreach($tasks as $task) {
-				
-				if($i == $random) {
-					return $task;
-				}
-				
-				$i++;
-				
+			if(!$taskId) $taskId = $this->id;
+			
+			$task = $this->findById($taskId);
+			
+			if($task['Task']['locked'] === null) {
+				return false;
+			}
+			
+			$timeDiff = (mktime() - strtotime($task['Task']['locked']));
+			
+			if($timeDiff < 0) {
+				return true;
+			} else if($timeDiff < $this->getLockTime()) {
+				return true;
+			} else if ($timeDiff > $this->getLockTime()) {
+				$this->unlock($taskId);
+				return false;
+			}
+			
+			//fallback
+			return true;
+			
+		}
+		
+		public function unlock($taskId = null) {
+			
+			if( $taskId === null
+			 && isset($this->id)
+			)   $taskId = $this->id;
+			
+			if (
+				!$this->exists($taskId)
+			) {
+				$this->cakeError('internal');
+			}
+			
+			$this->read(array('locked', 'locked_by'), $taskId);
+			
+			$this->data['Task']['locked'] = null;
+			$this->data['Task']['locked_by'] = null;
+			
+			if($this->save()) {
+				return true;
+			} else {
+				$this->cakeError('internal');
 			}
 			
 		}
 		
+		public function lock($taskId, $userId) {
+			
+			if (
+				!Classregistry::init('User')->exists($userId)
+			 || !$this->exists($taskId)
+			) {
+				$this->cakeError('internal');
+			}
+			
+			$this->read(array('locked', 'locked_by'), $taskId);
+			
+			$this->data['Task']['locked'] = date('Y-m-d H:i:s');
+			$this->data['Task']['locked_by'] = $userId;
+			
+			return $this->save();
+			
+		}
+		
+		public function getLockTime() {
+			return $this->lockTime;
+		}
+		
+		public function setLockTime($newTime) {
+			
+			if(!is_integer($newTime)) {
+				$this->cakeError('internal');
+			}
+			
+			return $this->lockTime = $newTime;
+			
+		}
 	}

@@ -1,9 +1,9 @@
 <?php
-	class TagsUser extends AppModel {
+	class TagsTask extends AppModel {
 		
 		var $belongsTo = array(
 			'Tag',
-			'User'
+			'Task'
 		);
 		
 	}

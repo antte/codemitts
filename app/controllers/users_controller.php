@@ -6,7 +6,8 @@
 		
 		protected $actionsPermittedWithoutLogin = array(
 			'login',
-			'register'
+			'register',
+			'checkAvailability',
 		);
 		
 		protected $actionsToAppearInNavigation = array(
@@ -20,11 +21,24 @@
 			),
 		);
 		
+		function beforeFilter() {
+			$this->{$this->modelClass}->setState($this->Auth->user());
+			$this->Auth->allow('login', 'logout', 'register', 'checkAvailability');
+			parent::beforeFilter();
+		}
 		
 		/**ACTIONS WITH A CORRESPONDING VIEW**/
 		
-		function view($user = null) {
-			$this->set('user', $this->Session->read('User'));
+		function view($username = null) {
+			
+			if(is_null($username)) {
+				$user = $this->User->getUser();
+			} else {
+				$user = $this->User->getUser($username);
+			}
+			
+			$this->set('user', $user);
+			
 		}
 		
 		function editTags() {
@@ -35,7 +49,7 @@
 			
 			$currentUserId = $this->requestAction(array('controller' => 'users', 'action' => 'getUserId'));
 			
-			$user = $this->User->findById($currentUserId);			
+			$user = $this->User->findById($currentUserId);
 			$this->set('tags', $user['Tag']);
 			$this->set('userId', $currentUserId);
 			
@@ -48,121 +62,75 @@
 		}
 		
 		function login(){
-			
-			if($this->data) {
-				$username = $this->data['User']['username'];
-				$password = $this->data['User']['password'];
-			} else if(func_num_args() == 2) {
-				$username = func_get_arg(0);
-				$password = func_get_arg(1);
-			}
-			
-			if(isset($username) && isset($password)) {
-			
-				$verifies = $this->User->verify($username, $password);
-				
-				if($verifies) {
-					$this->Session->write("User", $this->User->find('first', array('conditions' => array('username' => $username))));
-					$this->redirect(array('action' => 'index'));
-				} else {
-					$this->Session->setFlash("Wrong username or password", "user_notice");
-					$this->redirect($this->referer());
-				}
-			
-			}
-			
+			$this->layout = 'welcome';
 		}
 		
 		function register() {
-			if(!empty($this->data)) {				
-				if($this->User->register($this->data)) {
-					$this->Session->setFlash("You are registered! Try logging in.", 'user_notice');
-					$this->redirect($this->referer());
-				} else {
-					$this->Session->setFlash("Something went wrong. Try again please.", 'user_error');
-					$this->redirect($this->referer());
+			if($this->data) {
+				if ($this->data['User']['password'] == $this->Auth->password($this->data['User']['repassword'])) {
+					
+					$this->User->create();
+					
+					if($this->User->save($this->data)) {
+						$this->Auth->login($this->data);
+						$this->redirect(array('action' => 'index'));
+					} else {
+						$this->Session->setFlash("Something went wrong. Try again please.", 'user_error');
+						$this->redirect($this->referer());
+					}
+					
 				}
 			}			
 		}
 		
 		function logout() {
-			
-			if($this->Session->read('User')) {
-				$this->Session->delete('User');
-			}
-			
-			$this->redirect(array('controller' => 'pages', 'action' => 'home'));
-			
+			$this->redirect($this->Auth->logout());
 		}
 		
 		/**
-		 * This is the pinnacle of my career.
-		 * I'm tired of this ¤%&/#&% function. It works now...
-		 * Also, cakes HABTM is awesome.
+		 * Current user won't have any "prefers" association (tags_users) with tag anymore
+		 * @param integer $tagId id of tag to be removed
 		 */
 		function removeTagFromUser($tagId) {
 			
 			$userId = $this->requestAction(array('controller' => 'users', 'action' => 'getUserId'));
 			
-			$tags = $this->User->Tag->find('all');
-
-			foreach($tags as &$tag) {
-				if($tag['Tag']['id'] == $tagId) {
-					
-				} else {
-					$tag['User'] = array();					
-				}
-			}
+			$assoc = $this->User->TagsUser->find('first', array('conditions' => array('TagsUser.tag_id' => $tagId, 'TagsUser.user_id' => $userId)));
 			
-			$this->User->Tag->saveAll($tags);
+			if(empty($assoc)) {
+				$this->setFlash('Something went wrong, try again.', 'user_warning');
+			} else {
+				$this->User->TagsUser->delete($assoc['TagsUser']['id']);
+			}
 			
 			$this->redirect($this->referer());
 			
 		}
 		
-		/**ACTIONS THAT ARE MADE TO BE REQUESTED**/
+		/**ACTIONS THAT ARE MADE TO BE CALLED WITH AJAX**/
 		
+		function checkAvailability($username = '') {
+			$this->layout = 'bare';
+			$this->set('available', $this->User->available($username));
+		}
+		
+		/**ACTIONS THAT ARE MADE TO BE REQUESTED**/
+
 		function isLoggedIn() {
 			if(!$this->params['requested']) $this->cakeError('error404');
-			
-			if($this->Session->check('User')) return true;
-			return false;
+			return $this->User->isLoggedIn();
 		}
-		
 		function getUserId() {
 			if(!$this->params['requested']) $this->cakeError('error404');
-
-			return $this->Session->read('User.User.id');
+			return $this->User->getUserId();
 		}
-		
 		function getUser() {
 			if(!$this->params['requested']) $this->cakeError('error404');
-			
-			return $this->Session->read('User');
+			return $this->User->getUser();
 		}
-		
-		/**
-		 * 
-		 * @param optional int $userId
-		 * @return prefered tags
-		 */
 		function getPreferedTags($id = null) {
 			if(!$this->params['requested']) $this->cakeError('error404');
-			
-			$preferedTags = array();
-			
-			if($id) {
-				$preferedTags = $this->User->getPreferedTags($id);
-			} else {
-				$preferedTags = $this->User->getPreferedTags($this->requestAction(array('controller' => 'users', 'action' => 'getUserId')));
-			}
-			
-			if(!empty($preferedTags) && $preferedTags) {
-				return $preferedTags;
-			} else {
-				return false;
-			}
-			
+			return $this->User->getPreferedTags($id);
 		}
 		
 	}

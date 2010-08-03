@@ -5,6 +5,7 @@ $(document).ready(function(){
 		$("#loginForm").css({marginTop: "-18px"});
 		
 		var loginForm = $("#loginForm form:first-child");
+		var formAction = "login";
 		
 		var radioStyle = "width: 20px; height: 20px; float: left;";
 		var labelStyle = "width: 200px; float: left; clear: right;";
@@ -24,6 +25,11 @@ $(document).ready(function(){
 		$("#actionSelection input").click(function() {
 			
 			var action = $(this).attr("value");
+			formAction = $(this).attr("value");
+			
+			if(action == "login") {
+				$("#usernameAvailability").remove();
+			}
 			
 			if(action == "register") {
 				
@@ -56,6 +62,61 @@ $(document).ready(function(){
 			urlFragments[urlFragments.length-1] = action;
 			
 			$(loginForm).attr('action', urlFragments.join("/"));
+		}
+		
+		/* Username availability check */
+		
+		$("input#UserUsername").keyup(function() {
+			if(formAction == "register") {
+				checkAvailability($(this));
+			}
+		});	
+		
+		function checkAvailability(input) {
+			
+			var username = $(input).val();
+			
+			var url = window.location.href;
+			
+			var urlFragments = url.split("/");
+			
+			urlFragments[urlFragments.length-2] = 'users';
+			urlFragments[urlFragments.length-1] = 'checkAvailability';
+			urlFragments[urlFragments.length] = username;
+			
+			url = urlFragments.join('/');
+			
+			$.ajax({
+				type: "GET",
+				url: url,
+				success: function(result) {
+					if (result[0] == "1") {
+						usernameAvailable(input, true);
+					} else if (result[0] == "0") {
+						usernameAvailable(input, false);
+					}
+				}
+			});
+		}
+		
+		function usernameAvailable(input, bool) {
+			
+			var availabilityBox = "#usernameAvailability";
+			
+			if(!($(availabilityBox).length)) {
+				$('<p id="usernameAvailability" class="message notice"></p>').appendTo($(input).parent());
+			}
+			
+			if(bool) {
+				$(availabilityBox).removeClass('error');
+				$(availabilityBox).addClass('notice');
+				$(availabilityBox).text("Username available");
+			} else {
+				$(availabilityBox).removeClass('notice');
+				$(availabilityBox).addClass('error');
+				$(availabilityBox).text("Username not available");
+			}
+			
 		}
 		
 	}

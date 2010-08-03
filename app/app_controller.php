@@ -11,84 +11,28 @@
 			'Session'
 		);
 		
-		private $appControllerActionsPermittedWithoutLogin = array(
-			array('controller' => 'users', 'action' => 'isLoggedIn'),
-			array('controller' => 'any', 'action' => 'appSidebar'),
-			array('controller' => 'any', 'action' => 'sidebar'),
-			array('controller' => 'any', 'action' => 'getContentTitle'),
+		public $components = array(
+			'Auth',
+			'Session',
 		);
 		
 		private $controllersToAppearInNavigation = array(
 			'users',
 			'tasks',
-			'projects'
+			'projects',
 		);
 		
 		private $navElements = array();
 		
-		/**
-		 * This function will be called:
-		 *  each time a user requests a new page
-		 *  each time an action is requested
-		 *  
-		 * (non-PHPdoc)
-		 * @see cake/libs/controller/Controller#beforeFilter()
-		 */
-		function beforeFilter() {
-			
-			foreach($this->appControllerActionsPermittedWithoutLogin as $pair) {
-				if(
-					$this->params['action'] == $pair['action'] &&
-					(
-						$this->params['controller'] == $pair['controller'] || 
-						$pair['controller'] === 'any'
-					)
-				) {
-					return; //proceed as normal
-				}
-			}
-			
-			if( 
-				!$this->requestAction(array(
-					'controller' => 'users', 
-					'action' => 'isLoggedIn',
-				))
-			 && !$this->actionIsPermittedWithoutLogin()
-			) {
-				$this->Session->setFlash("You have to be logged in to do that.", "user_error");
-				$this->redirect(array('controller' => 'users', 'action' => 'login'));
-			} else {
-				return; //proceed as normal
-			}
-			
-			//Always fall back to a safe option?
-			$this->redirect(array('controller' => 'users', 'action' => 'login'));
-			
-		}
-		
-		/**
-		 * Checks to see if the action is one of the action permitted for guests to view without being logged in
-		 * @return true if current controller/action is permitted without being logged in
-		 */
-		function actionIsPermittedWithoutLogin() {
-			if( 
-				isset($this->actionsPermittedWithoutLogin) &&
-				!empty($this->actionsPermittedWithoutLogin)
-			) {
-				foreach($this->actionsPermittedWithoutLogin as $action) {
-					if( !is_string($action) ) continue;
-					if( low($this->params['action']) == low($action) ) return true;
-				}
-			} else {
-				return false;
-			}
-			
+		public function beforeFilter() {
+			$this->Auth->loginError = 'Wrong username or password';
+			$this->Auth->authError = 'You have to be logged in to do that.';
 		}
 		
 		/*
 		 * This function is meant to be overridden by a controller
 		 */
-		function sidebar($action) {
+		public function sidebar($action) {
 			//Fallback
 			return array();
 		}

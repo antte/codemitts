@@ -1,4 +1,5 @@
-<h1>Your tags</h1>
+<?php $this->set('content_title', 'Your tags'); ?>
+<?php echo $this->Javascript->link('focus.js', $inline = false); ?>
 <?php if(!empty($tags)):?>
 <ul>
 	<?php foreach($tags as $tag):?>
