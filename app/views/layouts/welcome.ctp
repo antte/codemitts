@@ -22,7 +22,7 @@
 	
 		<section id="content">
 			
-			<?php echo $this->Session->flash(); ?>
+			<?php echo $session->flash(); ?>
 
 			<?php if(isset($content_title)) echo '<h1>' . $content_title . '</h1>'; ?>
 
@@ -31,7 +31,7 @@
 		</section>
 		
 		<aside id="sidebar">
-			<?php echo $this->Session->flash('auth'); ?>
+			<?php echo $session->flash('auth'); ?>
 			<?php echo $this->element("login_form");?>
 		</aside>
 	

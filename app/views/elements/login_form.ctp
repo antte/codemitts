@@ -6,5 +6,5 @@
 		echo $form->input('password');
 		echo $form->end('Login');
 	?>
-	<p>New user? <?php echo $html->link("Sign up here", array('controller' => 'Users', 'action' => 'register'));?>.</p>
+	<p>New user? <?php echo $html->link("Sign up here", array('controller' => 'users', 'action' => 'register'));?>.</p>
 </section>

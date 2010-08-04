@@ -9,17 +9,7 @@
 		
 		function beforeFilter() {
 			$this->Auth->allow('display', 'home');
-		}
-		
-		function sidebar($action) {
-			if(!isset($this->params['requested'])) $this->cakeError("error404");
-			
-			$options = array();
-			
-			if($action == "display") $options['sidebar']['elements'][0]['name'] = 'login_form';
-			
-			return $options;
-			
+			parent::beforeFilter();
 		}
 		
 		/**
@@ -50,7 +40,11 @@
 			$this->set(compact('page', 'subpage', 'title_for_layout'));
 			
 			if($page == "home") {
-				$this->redirect(array('controller' => 'users', 'action' => 'login'));
+				if($this->Auth->user()) {
+					$this->redirect(array('controller' => 'users'));
+				} else {
+					$this->redirect(array('controller' => 'users', 'action' => 'login'));
+				}
 			}
 			
 			$this->render(implode('/', $path));

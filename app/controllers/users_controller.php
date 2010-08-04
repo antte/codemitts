@@ -24,6 +24,7 @@
 		function beforeFilter() {
 			$this->{$this->modelClass}->setState($this->Auth->user());
 			$this->Auth->allow('login', 'logout', 'register', 'checkAvailability');
+			$this->Auth->autoRedirect = false;
 			parent::beforeFilter();
 		}
 		
@@ -55,14 +56,27 @@
 			
 		}
 		
+		function login(){
+			$this->layout = 'welcome';
+			if(!empty($this->data) && $this->Auth->user()) {
+				// User just logged in successfully
+				if(
+					$this->Auth->redirect() == '/users/login'
+				 || $this->Auth->redirect() == '/'
+				 || $this->Auth->redirect() == '/pages/home'
+				 || $this->Auth->redirect() == '/pages'
+				) {
+					$this->redirect(array('controller' => 'users', 'action' => 'index'));
+				} else {
+					$this->redirect($this->Auth->redirect());
+				}
+			}
+		}
+		
 		/**ACTIONS WITHOUT A VIEW**/
 		
 		function index() {
 			$this->redirect(array('action' => 'view'));
-		}
-		
-		function login(){
-			$this->layout = 'welcome';
 		}
 		
 		function register() {
