@@ -38,7 +38,9 @@
 				$this->redirect(array('controller' => 'users', 'action' => 'index'));
 			}
 			
-			//$this->Task->lock($task['Task']['id'], ClassRegistry::init('UsersController')->getUserId());
+			$this->Task->id = $task['Task']['id'];
+			
+			$this->Task->lock();
 			
 			$this->redirect(array('action' => 'view', $task['Task']['name']));
 			

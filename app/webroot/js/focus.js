@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var focusObjects = [];
 	
+	focusObjects.push('#UserLoginForm input#UserUsername');
 	focusObjects.push('#UserEditTagsForm input#TagName');
 
 	for (var i in focusObjects) {

@@ -104,11 +104,21 @@
 			
 		}
 		
-		public function lock($taskId, $userId) {
+		public function lock($taskId = null, $userId = null) {
+			
+			$user = Classregistry::init('User');
+			
+			if (!$taskId) {
+				$taskId = $this->id;
+			}
+			
+			if(!$userId) {
+				$userId = $user->id = $user->getUserId();
+			}
 			
 			if (
-				!Classregistry::init('User')->exists($userId)
-			 || !$this->exists($taskId)
+				!$user->exists()
+			 || !$this->exists()
 			) {
 				$this->cakeError('internal');
 			}

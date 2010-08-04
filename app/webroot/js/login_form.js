@@ -40,6 +40,8 @@ $(document).ready(function(){
 				$('label[for="UserRepassword"]').removeAttr('disabled').show();
 				$('#UserRepassword').removeAttr('disabled').show();
 				
+				$('#UserLoginForm input#UserUsername').focus();
+				
 			} else if (action == "login") {
 				
 				changeFormAction('login');
@@ -48,6 +50,8 @@ $(document).ready(function(){
 				
 				$('label[for="UserRepassword"]').attr('disabled', 'disabled').hide();
 				$('#UserRepassword').attr('disabled', 'disabled').hide();		
+				
+				$('#UserLoginForm input#UserUsername').focus();
 				
 			}
 			
